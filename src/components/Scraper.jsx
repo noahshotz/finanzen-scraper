@@ -118,7 +118,12 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.green";
 
       // send request
-      await axios.get(url).then(({ data }) => {
+      await axios.get(url, {
+        headers: {
+          'Content-Type': 'appliaction/json;charset=UTF-8',
+          'Access-Control-Allow-Origin': '*'
+        }
+      }).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("ETF", "").trim();
         price = $(priceSel).text().replace(",", ".");
