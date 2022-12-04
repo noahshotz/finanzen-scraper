@@ -1,2 +1,2 @@
 [[redirects]]
-  /api/*  https://www.finanzen.net/:splat  200
+  /aktien/*  https://www.finanzen.net/:splat  200
