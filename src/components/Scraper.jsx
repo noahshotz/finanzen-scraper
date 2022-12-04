@@ -83,7 +83,12 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
 
       // send request
-      await axios.get(url).then(({ data }) => {
+      await axios.get(url, {
+        headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Access-Control-Allow-Origin': '*'
+        }
+      }).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("Aktie", "").trim();
         price = $(priceSel).text().replace(",", ".");
@@ -120,7 +125,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       // send request
       await axios.get(url, {
         headers: {
-          'Content-Type': 'appliaction/json;charset=UTF-8',
+          'Content-Type': 'application/json;charset=UTF-8',
           'Access-Control-Allow-Origin': '*'
         }
       }).then(({ data }) => {
