@@ -1,7 +1,7 @@
 [[redirects]]
   force = true
   from = "https://www.finanzen.net/:splat"
-  to = "/*"
+  to = "/endpoint/"
   status = 200
   [redirect.headers]
     x-from = "Netlify"

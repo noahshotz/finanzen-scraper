@@ -64,7 +64,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
   ];
 
   const baseURLlocal = "http://localhost:8010/proxy/";
-  const baseURL = "https://www.finanzen.net/"
+  const baseURL = "endpoint/"
 
   arr.forEach(async function (item, index) {
     const urlParam = item[0];
