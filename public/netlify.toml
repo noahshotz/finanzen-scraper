@@ -1,12 +1,11 @@
-# The following redirect is intended for use with most SPAs that handle
-# routing internally.
+[[redirects]]
+  force = true
+  from = "/*"
+  to = "https://www.finanzen.net/:splat"
+  status = 200
+  [redirect.headers]
+    x-from = "Netlify"
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[headers]]
-  # Define which paths this specific [[headers]] block will cover.
-  for = "/*"
-    [headers.values]
-    Access-Control-Allow-Origin = "*"
