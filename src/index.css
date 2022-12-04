@@ -82,6 +82,8 @@ h2 {
 .scraper-header {
   display: flex;
   justify-content: space-between;
+  vertical-align: middle;
+  gap: 70px;
 }
 .scrape-data-item {
   background-color: #1a1a1a;
@@ -101,6 +103,21 @@ h2 {
   border-radius: 20px;
   font-size: 13px;
   line-height: 1.0;
+} 
+
+.error-log {
+  display: flex;
+  justify-content: center;
+  align-items: middle;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.error-log h3 {
+  padding: 30px;
+  padding-left: 80px;
+  padding-right: 80px;
+  background-color: #2b2b2b;
+  border-radius: 10px;
 }
 
 @media (prefers-color-scheme: light) {

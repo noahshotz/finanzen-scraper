@@ -160,6 +160,8 @@ export default function Scraper() {
   const [promiseState, setPromiseState] = useState(0);
   const [marketState, setMarketState] = useState(false);
 
+  const [portfolioExists, setPortfolioExists] = useState(true);
+
   let today = new Date()
   let time = today.getHours();
 
@@ -172,6 +174,9 @@ export default function Scraper() {
       setMarketState(false);
     }
     getScrape(count, setCount, promiseState, setPromiseState);
+    if (portfolio.length == 0) {
+      setMarketState(false);
+    }
   }, []);
 
   let completeAbs = 0;
@@ -192,7 +197,7 @@ export default function Scraper() {
           <h3>Total: {completeAbs.toFixed(2)} EUR 💰</h3>
           <h3>Today: {(completeTodayAbs.toFixed(2)<=0?"":"+") + completeTodayAbs.toFixed(2)} EUR 📈</h3>
           <h3>
-            <span className="pill">{ !marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
+            <span className="pill">{ marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
           </h3>
         </div>
         <div>
@@ -218,6 +223,11 @@ export default function Scraper() {
               </div>
             ))
           }
+          <div className="error-log">
+            <h3>
+              { portfolioExists ? "Data unavailable 😢" : "" }
+            </h3>
+          </div>
         </div>
       </div>
     </>
