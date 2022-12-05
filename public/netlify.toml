@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "endpoint"
-  to = "https://www.finanzen.net/"
+  from = "/endpoint"
+  to = "https://www.finanzen.net"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
