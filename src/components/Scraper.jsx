@@ -63,8 +63,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
     ]
   ];
 
-  const baseURLlocal = "http://localhost:8010/proxy/";
-  const baseURL = "/search/"
+  const baseURL = "https://cors-anywhere.herokuapp.com/www.finanzen.net/"
 
   arr.forEach(async function (item, index) {
     const urlParam = item[0];
