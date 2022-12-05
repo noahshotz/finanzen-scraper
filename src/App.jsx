@@ -8,9 +8,6 @@ function App() {
   return (
     <div className="App">
       <div className="card">
-        <p>
-          Start proxy server: <code>lcp --proxyUrl https://www.finanzen.net</code>
-        </p>
         <img src="https://api.netlify.com/api/v1/badges/dc18a034-295a-4e97-835d-654d416fb645/deploy-status"></img>
         <Scraper />
       </div>
