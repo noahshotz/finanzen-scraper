@@ -4,7 +4,7 @@ import cheerio from "cheerio";
 import { FiRefreshCcw as Refresh } from "react-icons/fi";
 
 let portfolio = [];
-function getScrape(count, setCount, promiseState, setPromiseState) {
+function getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists) {
 
   portfolio = [];
   setCount(count + 1);
@@ -109,6 +109,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
             update: Date().toLocaleString()
           }),
           setPromiseState(promiseState++),
+          setPortfolioExists(portfolioExists++)
         );
       });
     }
@@ -150,6 +151,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
             update: Date().toLocaleString()
           }),
           setPromiseState(promiseState++),
+          setPortfolioExists(portfolioExists++)
         );
       })
     }
@@ -161,7 +163,9 @@ export default function Scraper() {
   const [promiseState, setPromiseState] = useState(0);
   const [marketState, setMarketState] = useState(false);
 
-  const [portfolioExists, setPortfolioExists] = useState(true);
+  let portfolioStatus = false;
+
+  const [portfolioExists, setPortfolioExists] = useState(0);
 
   let today = new Date()
   let time = today.getHours();
@@ -174,9 +178,11 @@ export default function Scraper() {
     } else {
       setMarketState(false);
     }
-    getScrape(count, setCount, promiseState, setPromiseState);
-    if (portfolio.length == 0) {
-      setMarketState(false);
+    getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists);
+    if (portfolioExists < 1) {
+      portfolioStatus = false;
+    } else {
+      portfolioStatus = true;
     }
   }, []);
 
@@ -226,7 +232,7 @@ export default function Scraper() {
           }
           <div className="error-log">
             <h3>
-              { portfolioExists ? "Data unavailable 😢" : "" }
+              { portfolioStatus ? "All items loaded" :  "Data unavailable 😢" }
             </h3>
           </div>
         </div>
