@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/endpoint"
+  from = "endpoint"
   to = "https://www.finanzen.net/"
   status = 200
   force = true
