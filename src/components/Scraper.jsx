@@ -85,7 +85,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       // send request
       await axios.get(url, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://lucky-toffee-34af45.netlify.app/",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         }
@@ -126,7 +126,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       // send request
       await axios.get(url, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://lucky-toffee-34af45.netlify.app/",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         }
