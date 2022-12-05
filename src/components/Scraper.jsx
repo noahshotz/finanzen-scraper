@@ -64,7 +64,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
   ];
 
   const baseURLlocal = "http://localhost:8010/proxy/";
-  const baseURL = "https://www.finanzen.net/endpoint"
+  const baseURL = "https://www.finanzen.net/"
 
   arr.forEach(async function (item, index) {
     const urlParam = item[0];
@@ -85,8 +85,9 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       // send request
       await axios.get(url, {
         headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin': '*'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         }
       }).then(({ data }) => {
         const $ = cheerio.load(data);
@@ -125,8 +126,9 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
       // send request
       await axios.get(url, {
         headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Access-Control-Allow-Origin': '*'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         }
       }).then(({ data }) => {
         const $ = cheerio.load(data);
