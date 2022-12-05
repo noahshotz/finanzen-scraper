@@ -76,7 +76,7 @@ function getScrape(count, setCount, promiseState, setPromiseState) {
 
     if (type === "aktien") {
       // define data selectors at target page
-      const nameSel = "body > main > section:nth-child(2) > div > div > h2";
+      const nameSel = "body > main > section:nth-child(3) > div > div > h2";
       const priceSel = "#snapshot-value-fst-current-0 > span:nth-child(1)";
       const chgAbsSel = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
       const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
@@ -206,7 +206,7 @@ export default function Scraper() {
             portfolio.map((item, index) => (
               <div key={index} className="scrape-data-item">
                 <h2>💸 {item.name}</h2>
-                <code>{item.url}</code>
+                {/* <code>{item.url}</code> --> */}
                 <p className="scrape-data-tabs">
                   <span className="pill">{item.type}</span>
                 </p>
