@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/search"
-  to = "https://api.mysearch.com"
+  to = "https://www.finanzen.net/"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
