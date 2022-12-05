@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <div className="card">
-        <h1>Heinrich&Heinrich</h1>
+        <h1></h1>
         <Scraper />
       </div>
       <p className="read-the-docs">
