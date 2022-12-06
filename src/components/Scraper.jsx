@@ -82,8 +82,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
 
       // send request
-      await axios.get(url
-      }).then(({ data }) => {
+      await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("Aktie", "").trim();
         price = $(priceSel).text().replace(",", ".");
@@ -119,8 +118,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.green";
 
       // send request
-      await axios.get(url,
-        ).then(({ data }) => {
+      await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("ETF", "").trim();
         price = $(priceSel).text().replace(",", ".");
