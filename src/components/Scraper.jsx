@@ -100,7 +100,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
             quantity: quantity,
             type: type,
             url: url,
-            update: Date().toLocaleString()
+            update: Date().toLocaleString('de-DE')
           }),
           setPromiseState(promiseState++),
           setPortfolioExists(portfolioExists++)
@@ -200,7 +200,7 @@ export default function Scraper() {
             portfolio.map((item, index) => (
               <div key={index} className="scrape-data-item">
                 <h2>💸 {item.name}</h2>
-                {/* <code>{item.url}</code> --> */}
+                <code>{item.url}</code>
                 <p className="scrape-data-tabs">
                   <span className="pill">{item.type}</span>
                 </p>
