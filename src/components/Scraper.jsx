@@ -14,52 +14,61 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       // Palantir
       "palantir-aktie@stBoerse_TGT",
       "aktien",
-      67
+      67,
+      false
     ],
     [
       // TTWO
       "take_two-aktie@stBoerse_TGT",
       "aktien",
-      5
+      5,
+      false
     ],
     [
       // LVMH
       "lvmh-aktie@stBoerse_TGT",
       "aktien",
-      1
+      1,
+      false
     ],
     [
       // MT
       "arcelormittal-aktie@stBoerse_TGT",
       "aktien",
-      41
+      41,
+      false
     ],
     [
       // GCE
       "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt",
       "etf",
-      112
+      112,
+      true
     ],
     [
       // HSBC MSCI WORLD
       "hsbc-msci-world-etf-ie00b4x9l533/tgt",
       "etf",
-      143
+      143,
+      true
     ],
     [
       "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
       "etf",
-      65
+      65,
+      true
     ],
     [
       "ishares-automation-robotics-etf-ie00byzk4552/tgt",
       "etf",
-      30
+      30,
+      true
     ],
     [
       "ishares-core-msci-world-etf-ie00b4l5y983/tgt",
       "etf",
-      6
+      6,
+      true
     ]
   ];
 
@@ -69,7 +78,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
     const urlParam = item[0];
     let type = item[1];
     const quantity = item[2];
-
+    const isSpecial = item[3];
     const url = baseURL + type + "/" + urlParam;
 
     let name; let price; let chgabs; let chgrel;
@@ -87,11 +96,14 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         name = $(nameSel).text().replace("Aktie", "").trim();
         price = $(priceSel).text().replace(",", ".");
         price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel).text().replace(",", ".");
-        chgrel = $(chgRelSel).text();
+        chgabs = $(chgAbsSel).text().replace(",", ".").replace("EUR", "").replace("±", "");;
+        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
         type = type.toUpperCase();
 
-        return Promise.all([name, price, chgabs, chgrel]).then(
+        const now = new Date();
+        const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
+
+        return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
             price: price,
@@ -100,7 +112,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
             quantity: quantity,
             type: type,
             url: url,
-            update: Date().toLocaleString('de-DE')
+            update: fullDate
           }),
           setPromiseState(promiseState++),
           setPortfolioExists(portfolioExists++)
@@ -108,26 +120,35 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       });
     }
     if (type === "etf") {
+      let chgAbsSel; let chgRelSel;
+      if (isSpecial) {
+        chgAbsSel = "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.red.arrow-red";
+        chgRelSel = "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.red";
+      } else {
+        chgAbsSel =
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.green.arrow-green";
+        chgRelSel =
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.green";
+      }
       const nameSel =
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > h1";
       const priceSel =
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)";
-      const chgAbsSel =
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.green.arrow-green";
-      const chgRelSel =
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.green";
 
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("ETF", "").trim();
-        price = $(priceSel).text().replace(",", ".");
+        price = $(priceSel).text().replace(",", ".").replace("±", "");
         price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel).text().replace(",", ".").replace("EUR", "");
-        chgrel = $(chgRelSel).text();
+        chgabs = $(chgAbsSel).text().replace(",", ".").replace("EUR", "").replace("±", "");;
+        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
         type = type.toUpperCase();
 
-        return Promise.all([name, price, chgabs, chgrel]).then(
+        const now = new Date();
+        const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
+
+        return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
             price: price,
@@ -136,7 +157,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
             quantity: quantity,
             type: type,
             url: url,
-            update: Date().toLocaleString()
+            update: fullDate
           }),
           setPromiseState(promiseState++),
           setPortfolioExists(portfolioExists++)
@@ -161,7 +182,7 @@ export default function Scraper() {
   useEffect(() => {
     // Update the document title using the browser API
     document.title = `You clicked ${count} times`;
-    if ( 8 >= time < 22) {
+    if (8 >= time < 22) {
       setMarketState(true);
     } else {
       setMarketState(false);
@@ -179,8 +200,8 @@ export default function Scraper() {
   portfolio.forEach(element => {
     completeAbs = completeAbs + (element.price * element.quantity);
     completeTodayAbs = completeTodayAbs + (element.chgabs * element.quantity);
+    console.log(element.name + ": " + completeTodayAbs);
   })
-
   return (
     <>
       <div className="scraper-ct">
@@ -190,9 +211,9 @@ export default function Scraper() {
       <div className="scraper-return">
         <div className="scraper-header">
           <h3>Total: {completeAbs.toFixed(2)} EUR 💰</h3>
-          <h3>Today: {(completeTodayAbs.toFixed(2)<=0?"":"+") + completeTodayAbs.toFixed(2)} EUR 📈</h3>
+          <h3>Today: {(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + completeTodayAbs.toFixed(2)} EUR 📈</h3>
           <h3>
-            <span className="pill">{ marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
+            <span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
           </h3>
         </div>
         <div>
@@ -200,7 +221,7 @@ export default function Scraper() {
             portfolio.map((item, index) => (
               <div key={index} className="scrape-data-item">
                 <h2>💸 {item.name}</h2>
-                <code>{item.url}</code>
+                {/*<code>{item.url}</code>*/}
                 <p className="scrape-data-tabs">
                   <span className="pill">{item.type}</span>
                 </p>
@@ -210,9 +231,9 @@ export default function Scraper() {
                   <span>{item.chgrel} %</span>
                 </p>
                 <p className="scrape-data-tabs">
-                  <span>quantity: {item.quantity}</span>
-                  <span>total: {(item.quantity * item.price).toFixed(2)} EUR</span>
-                  <span>today: {(item.quantity * item.chgabs).toFixed(2)} EUR</span>
+                  <span>Quantity: {item.quantity}</span>
+                  <span>Total: {(item.quantity * item.price).toFixed(2)} EUR</span>
+                  <span>Total: {(item.quantity * item.chgabs).toFixed(2)} EUR</span>
                 </p>
                 <code>Last updated: {item.update}</code>
               </div>
@@ -220,7 +241,7 @@ export default function Scraper() {
           }
           <div className="error-log">
             <h3>
-              { portfolioStatus ? "All items loaded" :  "Data unavailable 😢" }
+              {portfolioStatus ? "All items loaded" : "Data unavailable 😢"}
             </h3>
           </div>
         </div>
