@@ -197,21 +197,36 @@ export default function Scraper() {
 
   let completeAbs = 0;
   let completeTodayAbs = 0;
+  const formatter = new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+  
+  console.log(formatter.format(2500)); /* $2,500.00 */
+  
   portfolio.forEach(element => {
     completeAbs = completeAbs + (element.price * element.quantity);
     completeTodayAbs = completeTodayAbs + (element.chgabs * element.quantity);
-    console.log(element.name + ": " + completeTodayAbs);
   })
   return (
     <>
       <div className="scraper-ct">
-        <h2>my data 👋</h2>
+        <h1>My data 👋</h1>
         <button onClick={() => getScrape(count, setCount, promiseState, setPromiseState)}>Refresh <Refresh style={{ marginLeft: "10px" }} /></button>
       </div>
       <div className="scraper-return">
         <div className="scraper-header">
-          <h3>Total: {completeAbs.toFixed(2)} EUR 💰</h3>
-          <h3>Today: {(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + completeTodayAbs.toFixed(2)} EUR 📈</h3>
+          <div className="scraper-header-cat">
+            <span>Total</span>
+            <h3>{formatter.format(completeAbs.toFixed(2))} 💰</h3>
+          </div>
+          <div className="scraper-header-cat">
+            <span>Today</span>
+            <h3>{(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))} 📈</h3>
+          </div>
           <h3>
             <span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
           </h3>
@@ -226,14 +241,14 @@ export default function Scraper() {
                   <span className="pill">{item.type}</span>
                 </p>
                 <p className="scrape-data-tabs">
-                  <span>Last: {item.price} EUR</span>
-                  <span>{item.chgabs} EUR</span>
+                  <span>Last: {formatter.format(item.price)}</span>
+                  <span>{formatter.format(item.chgabs)}</span>
                   <span>{item.chgrel} %</span>
                 </p>
                 <p className="scrape-data-tabs">
                   <span>Quantity: {item.quantity}</span>
-                  <span>Total: {(item.quantity * item.price).toFixed(2)} EUR</span>
-                  <span>Total: {(item.quantity * item.chgabs).toFixed(2)} EUR</span>
+                  <span>Total: {formatter.format((item.quantity * item.price).toFixed(2))}</span>
+                  <span>Total: {formatter.format((item.quantity * item.chgabs).toFixed(2))}</span>
                 </p>
                 <code>Last updated: {item.update}</code>
               </div>

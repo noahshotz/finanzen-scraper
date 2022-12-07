@@ -57,6 +57,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  white-space: nowrap;
 }
 button:hover {
   border-color: #646cff;
@@ -87,7 +88,18 @@ h2 {
   justify-content: space-between;
   align-items: center;
   vertical-align: middle;
-  gap: 70px;
+  gap: 5px;
+}
+.scraper-header-cat {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.scraper-header span {
+  font-size: 15px;
+}
+.scraper-header h3 {
+  margin: 0;
+  font-size: 22px;
 }
 .scrape-data-item {
   background-color: #1a1a1a;
@@ -107,6 +119,7 @@ h2 {
   border-radius: 20px;
   font-size: 13px;
   line-height: 1.0;
+  white-space: nowrap;
 } 
 
 .error-log {
@@ -122,6 +135,10 @@ h2 {
   padding-right: 80px;
   background-color: #2b2b2b;
   border-radius: 10px;
+}
+
+footer {
+  margin-bottom: 50px;
 }
 
 @media (prefers-color-scheme: light) {
