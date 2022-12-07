@@ -221,11 +221,11 @@ export default function Scraper() {
         <div className="scraper-header">
           <div className="scraper-header-cat">
             <span>Total</span>
-            <h3>{formatter.format(completeAbs.toFixed(2))} 💰</h3>
+            <h3>{formatter.format(completeAbs.toFixed(2))}</h3>
           </div>
           <div className="scraper-header-cat">
             <span>Today</span>
-            <h3>{(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))} 📈</h3>
+            <h3>{(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))}</h3>
           </div>
           <h3>
             <span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
