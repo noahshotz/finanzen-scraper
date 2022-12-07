@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
 import { FiRefreshCcw as Refresh } from "react-icons/fi";
+import { FiArrowUpRight as ArrowUp } from "react-icons/fi";
+import { FiArrowDownRight as ArrowDown } from "react-icons/fi";
 
 let portfolio = [];
 function getScrape(
-  count,
-  setCount,
   promiseState,
   setPromiseState
 ) {
   // global vars
   portfolio = [];
-  setCount(count + 1);
 
   // data array
   const arr = [
@@ -215,7 +214,6 @@ function getMarketState(marketState, setMarketState) {
 }
 
 export default function Scraper() {
-  const [count, setCount] = useState(0);
   const [promiseState, setPromiseState] = useState(0);
   const [marketState, setMarketState] = useState(true);
 
@@ -223,14 +221,12 @@ export default function Scraper() {
 
   useEffect(() => {
     // Update the document title using the browser API
-    document.title = `You clicked ${count} times`;
+    document.title = "Tradegate Scraper ✨ digital bando"
     getMarketState(
       marketState,
       setMarketState
     )
     getScrape(
-      count,
-      setCount,
       promiseState,
       setPromiseState,
       marketState,
@@ -259,8 +255,6 @@ export default function Scraper() {
         <button
           onClick={() => [
             getScrape(
-              count,
-              setCount,
               promiseState,
               setPromiseState
           ), getMarketState(
@@ -281,8 +275,8 @@ export default function Scraper() {
           <div className="scraper-header-cat">
             <span>Today</span>
             <h3>
-              {(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") +
-                formatter.format(completeTodayAbs.toFixed(2))}
+              {(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))}
+              {completeTodayAbs.toFixed(2) <= 0 ? <ArrowDown /> : <ArrowUp />}
             </h3>
           </div>
           <div className="scraper-header-cat">
