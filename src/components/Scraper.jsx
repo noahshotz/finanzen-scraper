@@ -4,8 +4,12 @@ import cheerio from "cheerio";
 import { FiRefreshCcw as Refresh } from "react-icons/fi";
 
 let portfolio = [];
-function getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists) {
-
+function getScrape(
+  count,
+  setCount,
+  promiseState,
+  setPromiseState
+) {
   // global vars
   portfolio = [];
   setCount(count + 1);
@@ -17,69 +21,58 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       "palantir-aktie@stBoerse_TGT",
       "aktien",
       130,
-      false
+      false,
     ],
     [
       // TTWO
       "take_two-aktie@stBoerse_TGT",
       "aktien",
       5,
-      false
+      false,
     ],
     [
       // LVMH
       "lvmh-aktie@stBoerse_TGT",
       "aktien",
       1,
-      false
+      false,
     ],
     [
       // MT
       "arcelormittal-aktie@stBoerse_TGT",
       "aktien",
       70,
-      false
+      false,
     ],
     [
       // GCE
       "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt",
       "etf",
       150,
-      true
+      true,
     ],
     [
       // HSBC MSCI WORLD
       "hsbc-msci-world-etf-ie00b4x9l533/tgt",
       "etf",
       200,
-      true
+      true,
     ],
     [
       "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
       "etf",
       80,
-      true
+      true,
     ],
-    [
-      "ishares-automation-robotics-etf-ie00byzk4552/tgt",
-      "etf",
-      60,
-      true
-    ],
-    [
-      "ishares-core-msci-world-etf-ie00b4l5y983/tgt",
-      "etf",
-      25,
-      true
-    ]
+    ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 60, true],
+    ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 25, true],
   ];
 
   const proxy = "https://web-production-0fb1.up.railway.app/";
   const target = "www.finanzen.net/";
-  const baseURL = proxy+target;
+  const baseURL = proxy + target;
 
   arr.forEach(async function (item, index) {
-
     // store values from array as variables
     const urlParam = item[0];
     let type = item[1];
@@ -88,7 +81,10 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
     const url = baseURL + type + "/" + urlParam;
 
     // initialize export variables
-    let name; let price; let chgabs; let chgrel;
+    let name;
+    let price;
+    let chgabs;
+    let chgrel;
 
     if (type === "aktien") {
       // define data selectors at target page
@@ -103,13 +99,26 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         name = $(nameSel).text().replace("Aktie", "").trim();
         price = $(priceSel).text().replace(",", ".");
         price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel).text().replace(",", ".").replace("EUR", "").replace("±", "");;
-        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
+        chgabs = $(chgAbsSel)
+          .text()
+          .replace(",", ".")
+          .replace("EUR", "")
+          .replace("±", "");
+        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
 
         // initialize timestamp of last fetch
         const now = new Date();
-        const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
+        const fullDate =
+          ("0" + now.getDate()).slice(-2) +
+          "." +
+          (now.getMonth() + 1) +
+          "." +
+          now.getFullYear() +
+          " at " +
+          ("0" + now.getHours()).slice(-2) +
+          ":" +
+          now.getMinutes();
 
         // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
@@ -121,18 +130,20 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
             quantity: quantity,
             type: type,
             url: url,
-            update: fullDate
+            update: fullDate,
           }),
-          setPromiseState(promiseState++),
-          setPortfolioExists(portfolioExists++)
+          setPromiseState(promiseState++)
         );
       });
     }
     if (type === "etf") {
-      let chgAbsSel; let chgRelSel;
+      let chgAbsSel;
+      let chgRelSel;
       if (isSpecial) {
-        chgAbsSel = "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.red.arrow-red";
-        chgRelSel = "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.red";
+        chgAbsSel =
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.red.arrow-red";
+        chgRelSel =
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.red";
       } else {
         chgAbsSel =
           "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.green.arrow-green";
@@ -150,13 +161,26 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         name = $(nameSel).text().replace("ETF", "").trim();
         price = $(priceSel).text().replace(",", ".").replace("±", "");
         price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel).text().replace(",", ".").replace("EUR", "").replace("±", "");;
-        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
+        chgabs = $(chgAbsSel)
+          .text()
+          .replace(",", ".")
+          .replace("EUR", "")
+          .replace("±", "");
+        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
 
         // initialize timestamp of last fetch
         const now = new Date();
-        const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
+        const fullDate =
+          ("0" + now.getDate()).slice(-2) +
+          "." +
+          (now.getMonth() + 1) +
+          "." +
+          now.getFullYear() +
+          " at " +
+          ("0" + now.getHours()).slice(-2) +
+          ":" +
+          now.getMinutes();
 
         // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
@@ -168,63 +192,85 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
             quantity: quantity,
             type: type,
             url: url,
-            update: fullDate
+            update: fullDate,
           }),
-          setPromiseState(promiseState++),
-          setPortfolioExists(portfolioExists++)
+          setPromiseState(promiseState++)
         );
-      })
+      });
     }
   });
+}
+
+function getMarketState(marketState, setMarketState) {
+
+  let today = new Date();
+  let time = parseInt(today.getHours());
+  
+  if (time >= 8 && time <= 22) {
+    setMarketState(true);
+  } else {
+    setMarketState(false);
+  }
+  return marketState;
 }
 
 export default function Scraper() {
   const [count, setCount] = useState(0);
   const [promiseState, setPromiseState] = useState(0);
-  const [marketState, setMarketState] = useState(false);
+  const [marketState, setMarketState] = useState(true);
 
   let portfolioStatus = false;
-
-  const [portfolioExists, setPortfolioExists] = useState(0);
-
-  let today = new Date()
-  let time = today.getHours();
 
   useEffect(() => {
     // Update the document title using the browser API
     document.title = `You clicked ${count} times`;
-    if (8 >= time < 22) {
-      setMarketState(true);
-    } else {
-      setMarketState(false);
-    }
-    getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists);
-    if (portfolioExists < 1) {
-      portfolioStatus = false;
-    } else {
-      portfolioStatus = true;
-    }
+    getMarketState(
+      marketState,
+      setMarketState
+    )
+    getScrape(
+      count,
+      setCount,
+      promiseState,
+      setPromiseState,
+      marketState,
+      setMarketState
+    );
   }, []);
 
   let completeAbs = 0;
   let completeTodayAbs = 0;
-  const formatter = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EUR',
+  const formatter = new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
     // These options are needed to round to whole numbers if that's what you want.
     //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
-    
-  portfolio.forEach(element => {
-    completeAbs = completeAbs + (element.price * element.quantity);
-    completeTodayAbs = completeTodayAbs + (element.chgabs * element.quantity);
-  })
+
+  portfolio.forEach((element) => {
+    completeAbs = completeAbs + element.price * element.quantity;
+    completeTodayAbs = completeTodayAbs + element.chgabs * element.quantity;
+  });
   return (
     <>
       <div className="scraper-ct">
         <h1>My data 👋</h1>
-        <button onClick={() => getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists)}>Refresh <Refresh style={{ marginLeft: "10px" }} /></button>
+        <button
+          onClick={() => [
+            getScrape(
+              count,
+              setCount,
+              promiseState,
+              setPromiseState
+          ), getMarketState(
+            marketState,
+            setMarketState
+          )]
+          }
+        >
+          Refresh <Refresh style={{ marginLeft: "10px" }} />
+        </button>
       </div>
       <div className="scraper-return">
         <div className="scraper-header">
@@ -234,57 +280,64 @@ export default function Scraper() {
           </div>
           <div className="scraper-header-cat">
             <span>Today</span>
-            <h3>{(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))}</h3>
+            <h3>
+              {(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") +
+                formatter.format(completeTodayAbs.toFixed(2))}
+            </h3>
           </div>
           <div className="scraper-header-cat">
-            <h3><span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span></h3>
+            <h3>
+              <span className="pill">
+                {marketState ? "MARKET OPEN 🥳" : "MARKET CLOSED 😴"}
+              </span>
+            </h3>
           </div>
         </div>
         <div>
-          {
-            portfolio.map((item, index) => (
-              <div key={index} className="scrape-data-item">
-                <h2>💸 {item.name}</h2>
-                {/*<code>{item.url}</code>*/}
-                <div className="scrape-data-tabs asset-type">
-                  <span className="pill">{item.type}</span>
-                </div>
-                <div className="scrape-data-tabs">
-                  <div className="scrape-data-tabs-item">
-                    <span className="tab-item-header">Last</span>
-                    <h3>{formatter.format(item.price)}</h3>
-                  </div>
-                  <div className="scrape-data-tabs-item">
-                    <span></span>
-                    <h3>{formatter.format(item.chgabs)}</h3>
-                  </div>
-                  <div className="scrape-data-tabs-item">
-                    <span></span>
-                    <h3>{item.chgrel} %</h3>
-                  </div>
-                </div>
-                <div className="scrape-data-tabs">
-                  <div className="scrape-data-tabs-item">
-                    <span className="tab-item-header">Quantity</span>
-                    <h3>{item.quantity}</h3>
-                  </div>
-                  <div className="scrape-data-tabs-item">
-                    <span className="tab-item-header">Total</span>
-                    <h3>{formatter.format((item.quantity * item.price).toFixed(2))}</h3>
-                  </div>
-                  <div className="scrape-data-tabs-item">
-                    <span className="tab-item-header">Today</span>
-                    <h3>{formatter.format((item.quantity * item.chgabs).toFixed(2))}</h3>
-                  </div>
-                </div>
-                <code>Last updated: {item.update}</code>
+          {portfolio.map((item, index) => (
+            <div key={index} className="scrape-data-item">
+              <h2>💸 {item.name}</h2>
+              {/*<code>{item.url}</code>*/}
+              <div className="scrape-data-tabs asset-type">
+                <span className="pill">{item.type}</span>
               </div>
-            ))
-          }
+              <div className="scrape-data-tabs">
+                <div className="scrape-data-tabs-item">
+                  <span className="tab-item-header">Last</span>
+                  <h3>{formatter.format(item.price)}</h3>
+                </div>
+                <div className="scrape-data-tabs-item">
+                  <span></span>
+                  <h3>{formatter.format(item.chgabs)}</h3>
+                </div>
+                <div className="scrape-data-tabs-item">
+                  <span></span>
+                  <h3>{item.chgrel} %</h3>
+                </div>
+              </div>
+              <div className="scrape-data-tabs">
+                <div className="scrape-data-tabs-item">
+                  <span className="tab-item-header">Quantity</span>
+                  <h3>{item.quantity}</h3>
+                </div>
+                <div className="scrape-data-tabs-item">
+                  <span className="tab-item-header">Total</span>
+                  <h3>
+                    {formatter.format((item.quantity * item.price).toFixed(2))}
+                  </h3>
+                </div>
+                <div className="scrape-data-tabs-item">
+                  <span className="tab-item-header">Today</span>
+                  <h3>
+                    {formatter.format((item.quantity * item.chgabs).toFixed(2))}
+                  </h3>
+                </div>
+              </div>
+              <code>Last updated: {item.update}</code>
+            </div>
+          ))}
           <div className="error-log">
-            <h3>
-              {portfolioStatus ? "All items loaded" : "Data unavailable 😢"}
-            </h3>
+            <h3>Data unavailable 😢</h3>
           </div>
         </div>
       </div>
