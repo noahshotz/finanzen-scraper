@@ -237,19 +237,37 @@ export default function Scraper() {
               <div key={index} className="scrape-data-item">
                 <h2>💸 {item.name}</h2>
                 {/*<code>{item.url}</code>*/}
-                <p className="scrape-data-tabs">
+                <div className="scrape-data-tabs asset-type">
                   <span className="pill">{item.type}</span>
-                </p>
-                <p className="scrape-data-tabs">
-                  <span>Last: {formatter.format(item.price)}</span>
-                  <span>{formatter.format(item.chgabs)}</span>
-                  <span>{item.chgrel} %</span>
-                </p>
-                <p className="scrape-data-tabs">
-                  <span>Quantity: {item.quantity}</span>
-                  <span>Total: {formatter.format((item.quantity * item.price).toFixed(2))}</span>
-                  <span>Total: {formatter.format((item.quantity * item.chgabs).toFixed(2))}</span>
-                </p>
+                </div>
+                <div className="scrape-data-tabs">
+                  <div className="scrape-data-tabs-item">
+                    <span className="tab-item-header">Last</span>
+                    <h3>{formatter.format(item.price)}</h3>
+                  </div>
+                  <div className="scrape-data-tabs-item">
+                    <span></span>
+                    <h3>{formatter.format(item.chgabs)}</h3>
+                  </div>
+                  <div className="scrape-data-tabs-item">
+                    <span></span>
+                    <h3>{item.chgrel} %</h3>
+                  </div>
+                </div>
+                <div className="scrape-data-tabs">
+                  <div className="scrape-data-tabs-item">
+                    <span className="tab-item-header">Quantity</span>
+                    <h3>{item.quantity}</h3>
+                  </div>
+                  <div className="scrape-data-tabs-item">
+                    <span className="tab-item-header">Total</span>
+                    <h3>{formatter.format((item.quantity * item.price).toFixed(2))}</h3>
+                  </div>
+                  <div className="scrape-data-tabs-item">
+                    <span className="tab-item-header">Today</span>
+                    <h3>{formatter.format((item.quantity * item.chgabs).toFixed(2))}</h3>
+                  </div>
+                </div>
                 <code>Last updated: {item.update}</code>
               </div>
             ))
