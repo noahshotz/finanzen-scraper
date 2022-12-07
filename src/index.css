@@ -156,6 +156,7 @@ h2 {
 }
 
 .pill {
+  color: white;
   background: #3d00ff;
   text-align: center;
   padding: 5px;

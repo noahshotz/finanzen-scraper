@@ -227,9 +227,9 @@ export default function Scraper() {
             <span>Today</span>
             <h3>{(completeTodayAbs.toFixed(2) <= 0 ? "" : "+") + formatter.format(completeTodayAbs.toFixed(2))}</h3>
           </div>
-          <h3>
-            <span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span>
-          </h3>
+          <div className="scraper-header-cat">
+            <h3><span className="pill">{marketState ? "MARKET OPEN" : "MARKET CLOSED 😴"}</span></h3>
+          </div>
         </div>
         <div>
           {
