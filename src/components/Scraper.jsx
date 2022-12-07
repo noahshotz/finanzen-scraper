@@ -14,7 +14,7 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       // Palantir
       "palantir-aktie@stBoerse_TGT",
       "aktien",
-      67,
+      130,
       false
     ],
     [
@@ -35,39 +35,39 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
       // MT
       "arcelormittal-aktie@stBoerse_TGT",
       "aktien",
-      41,
+      70,
       false
     ],
     [
       // GCE
       "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt",
       "etf",
-      112,
+      150,
       true
     ],
     [
       // HSBC MSCI WORLD
       "hsbc-msci-world-etf-ie00b4x9l533/tgt",
       "etf",
-      143,
+      200,
       true
     ],
     [
       "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
       "etf",
-      65,
+      80,
       true
     ],
     [
       "ishares-automation-robotics-etf-ie00byzk4552/tgt",
       "etf",
-      30,
+      60,
       true
     ],
     [
       "ishares-core-msci-world-etf-ie00b4l5y983/tgt",
       "etf",
-      6,
+      25,
       true
     ]
   ];
