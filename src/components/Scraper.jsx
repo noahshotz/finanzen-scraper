@@ -6,9 +6,11 @@ import { FiRefreshCcw as Refresh } from "react-icons/fi";
 let portfolio = [];
 function getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists) {
 
+  // global vars
   portfolio = [];
   setCount(count + 1);
 
+  // data array
   const arr = [
     [
       // Palantir
@@ -72,15 +74,20 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
     ]
   ];
 
-  const baseURL = "https://web-production-0fb1.up.railway.app/www.finanzen.net/"
+  const proxy = "https://web-production-0fb1.up.railway.app/";
+  const target = "www.finanzen.net/";
+  const baseURL = proxy+target;
 
   arr.forEach(async function (item, index) {
+
+    // store values from array as variables
     const urlParam = item[0];
     let type = item[1];
     const quantity = item[2];
     const isSpecial = item[3];
     const url = baseURL + type + "/" + urlParam;
 
+    // initialize export variables
     let name; let price; let chgabs; let chgrel;
 
     if (type === "aktien") {
@@ -100,9 +107,11 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
         type = type.toUpperCase();
 
+        // initialize timestamp of last fetch
         const now = new Date();
         const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
 
+        // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
@@ -145,9 +154,11 @@ function getScrape(count, setCount, promiseState, setPromiseState, portfolioExis
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");;
         type = type.toUpperCase();
 
+        // initialize timestamp of last fetch
         const now = new Date();
         const fullDate = ("0" + now.getDate()).slice(-2) + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " at " + ("0" + now.getHours()).slice(-2) + ":" + now.getMinutes();
 
+        // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
@@ -204,9 +215,7 @@ export default function Scraper() {
     //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
-  
-  console.log(formatter.format(2500)); /* $2,500.00 */
-  
+    
   portfolio.forEach(element => {
     completeAbs = completeAbs + (element.price * element.quantity);
     completeTodayAbs = completeTodayAbs + (element.chgabs * element.quantity);
@@ -215,7 +224,7 @@ export default function Scraper() {
     <>
       <div className="scraper-ct">
         <h1>My data 👋</h1>
-        <button onClick={() => getScrape(count, setCount, promiseState, setPromiseState)}>Refresh <Refresh style={{ marginLeft: "10px" }} /></button>
+        <button onClick={() => getScrape(count, setCount, promiseState, setPromiseState, portfolioExists, setPortfolioExists)}>Refresh <Refresh style={{ marginLeft: "10px" }} /></button>
       </div>
       <div className="scraper-return">
         <div className="scraper-header">
