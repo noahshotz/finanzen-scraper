@@ -9,6 +9,23 @@ finanzen-scraper is React-based web scraper for German financial platform Finanz
 
 ---
 
+### Get started 💫
+
+```
+git clone https://github.com/noahshotz/finanzen-scraper.git
+```
+```
+cd finanzen-scraper
+```
+```
+npm install
+```
+```
+npm run dev
+```
+
+---
+
 ### Something to say about it? 🗣
 
 Open a pull request or message me at info@digitalbando.com
