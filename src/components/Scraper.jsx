@@ -43,36 +43,34 @@ function getScrape(promiseState, setPromiseState) {
     let chgrel;
 
     if (type === "aktien") {
+
       // define data selectors at target page
-      //const nameSel = "body > main > section:nth-child(2) > div > div > h2";
-      //const nameSelSec = "body > main > section:nth-child(3) > div > div > h2";
-      const nameSelArr = [
+      const name_selector = [
         "body > main > section:nth-child(2) > div > div > h2",
-        "body > main > section:nth-child(3) > div > div > h2",
-      ]
-      const priceSel = "#snapshot-value-fst-current-0 > span:nth-child(1)";
-      const chgAbsSel = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
-      const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
+        "body > main > section:nth-child(3) > div > div > h2"
+      ];
+      const price_selector = "#snapshot-value-fst-current-0 > span:nth-child(1)";
+      const chg_abs_selector = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
+      const chg_rel_selector = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
 
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
 
-        nameSelArr.every(function (elem, index) {
-          if ($(elem).text() != "") {
-            name = $(elem).text().replace("Aktie", "").trim();
+        name_selector.forEach(elem => {
+          if ($(elem).text().length != 0) {
+            name = $(elem).text().replace("Aktie", "");
           }
-        })
+        });
 
-        //name = $(nameSel).text().replace("Aktie", "").trim();
-        price = $(priceSel).text().replace(",", ".");
+        price = $(price_selector).text().replace(",", ".");
         price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel)
+        chgabs = $(chg_abs_selector)
           .text()
           .replace(",", ".")
           .replace("EUR", "")
           .replace("±", "");
-        chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
+        chgrel = $(chg_rel_selector).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
 
         // initialize timestamp of last fetch
