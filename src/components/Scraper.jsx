@@ -87,7 +87,7 @@ function getScrape(
 
     if (type === "aktien") {
       // define data selectors at target page
-      const nameSel = "body > main > section:nth-child(3) > div > div > h2";
+      const nameSel = "body > main > section:nth-child(2) > div > div > h2";
       const priceSel = "#snapshot-value-fst-current-0 > span:nth-child(1)";
       const chgAbsSel = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
       const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
@@ -105,6 +105,8 @@ function getScrape(
           .replace("±", "");
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
+
+        console.log(url);
 
         // initialize timestamp of last fetch
         const now = new Date();
@@ -167,6 +169,8 @@ function getScrape(
           .replace("±", "");
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
+
+        
 
         // initialize timestamp of last fetch
         const now = new Date();
