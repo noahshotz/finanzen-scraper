@@ -297,7 +297,7 @@ export default function Scraper() {
                 <div className="scrape-data-tabs-item">
                   <span className="tab-item-header">Total</span>
                   <h3>
-                    {formatter.format((item.quantity * item.price).toFixed(2))}
+                    {formatter.format((item.quantity * item.price).toFixed(2)).replace("+", "")}
                   </h3>
                 </div>
                 <div className="scrape-data-tabs-item">
