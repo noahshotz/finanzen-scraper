@@ -18,6 +18,21 @@
   -webkit-text-size-adjust: 100%;
 }
 
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card {
+  max-width: 100vw;
+  margin-top: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -98,6 +113,7 @@ h2 {
 
 .scraper-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   vertical-align: middle;
@@ -137,6 +153,7 @@ h2 {
 
 .scrape-data-tabs {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 30px;
   gap: 40px;
 }
