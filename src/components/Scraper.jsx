@@ -281,11 +281,9 @@ export default function Scraper() {
                   <h3>{formatter.format(item.price)}</h3>
                 </div>
                 <div className="scrape-data-tabs-item">
-                  <span></span>
                   <h3>{formatter.format(item.chgabs)}</h3>
                 </div>
                 <div className="scrape-data-tabs-item">
-                  <span></span>
                   <h3>{item.chgrel} %</h3>
                 </div>
               </div>
