@@ -25,11 +25,24 @@
 
 .card {
   max-width: 100vw;
+  margin: 1em;
   margin-top: 2em;
 }
 
 .read-the-docs {
   color: #888;
+}
+
+h1 {
+  font-size: 3.2em;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 0;
+  line-height: 1.5;
 }
 
 
@@ -87,9 +100,12 @@ button:focus-visible {
 }
 
 .scraper-ct {
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .scrape-data-item h2 {
@@ -100,10 +116,6 @@ button:focus-visible {
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 30px;
-}
-
-h2 {
-  margin-top: 0;
 }
 
 .scraper-return {
@@ -121,7 +133,6 @@ h2 {
 }
 
 .scraper-header-cat {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
