@@ -187,7 +187,6 @@ function getScrape(
               .replace(",", ".")
               .replace("EUR", "")
               .replace("±", "");
-            console.log(chgabs);
           }
         });
 
