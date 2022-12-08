@@ -25,6 +25,13 @@ npm run dev
 ```
 
 ---
+### Good to know
+
+To prevent CORS-related issues, a reverse proxy is needed. This project uses https://github.com/Rob--W/cors-anywhere which is currently hosted on Railway, to prevent malicious a whitelist only accepts requests of certain URLs. If you want to use this package for yourself i recommend to either host cors-anywhere yourself of use a local reverse proxy like https://www.npmjs.com/package/local-cors-proxy. 
+
+I am not affiliated with any of the named external resources.
+
+---
 
 ### Something to say about it? 🗣
 
