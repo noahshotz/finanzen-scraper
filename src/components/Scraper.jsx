@@ -6,63 +6,20 @@ import { FiArrowUpRight as ArrowUp } from "react-icons/fi";
 import { FiArrowDownRight as ArrowDown } from "react-icons/fi";
 
 let portfolio = [];
-function getScrape(
-  promiseState,
-  setPromiseState
-) {
+
+function getScrape(promiseState, setPromiseState) {
   // global vars
   portfolio = [];
 
   // data array
   const arr = [
-    [
-      // Palantir
-      "palantir-aktie@stBoerse_TGT",
-      "aktien",
-      130,
-      false,
-    ],
-    [
-      // TTWO
-      "take_two-aktie@stBoerse_TGT",
-      "aktien",
-      5,
-      false,
-    ],
-    [
-      // LVMH
-      "lvmh-aktie@stBoerse_TGT",
-      "aktien",
-      1,
-      false,
-    ],
-    [
-      // MT
-      "arcelormittal-aktie@stBoerse_TGT",
-      "aktien",
-      70,
-      false,
-    ],
-    [
-      // GCE
-      "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt",
-      "etf",
-      150,
-      true,
-    ],
-    [
-      // HSBC MSCI WORLD
-      "hsbc-msci-world-etf-ie00b4x9l533/tgt",
-      "etf",
-      200,
-      true,
-    ],
-    [
-      "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
-      "etf",
-      80,
-      true,
-    ],
+    ["palantir-aktie@stBoerse_TGT", "aktien", 130, false],
+    ["take_two-aktie@stBoerse_TGT", "aktien", 5, false],
+    ["lvmh-aktie@stBoerse_TGT", "aktien", 1, false],
+    ["arcelormittal-aktie@stBoerse_TGT", "aktien", 70, false],
+    ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 150, true],
+    ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 200, true],
+    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 80, true],
     ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 60, true],
     ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 25, true],
   ];
@@ -242,9 +199,8 @@ export default function Scraper() {
   const [promiseState, setPromiseState] = useState(0);
   const [marketState, setMarketState] = useState(true);
 
-  let portfolioStatus = false;
-
   useEffect(() => {
+    console.log("loading");
     // Update the document title using the browser API
     document.title = "Tradegate Scraper ✨ digital bando"
     getMarketState(
@@ -257,6 +213,7 @@ export default function Scraper() {
       marketState,
       setMarketState
     );
+    console.log("done loading");
   }, []);
 
   let completeAbs = 0;
@@ -265,9 +222,6 @@ export default function Scraper() {
     style: "currency",
     currency: "EUR",
     signDisplay: 'always'
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
   portfolio.forEach((element) => {
