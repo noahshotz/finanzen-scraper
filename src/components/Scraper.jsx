@@ -296,7 +296,7 @@ export default function Scraper() {
         <div className="scraper-header">
           <div className="scraper-header-cat">
             <span>Total</span>
-            <h3>{formatter.format(completeAbs.toFixed(2))}</h3>
+            <h3>{formatter.format(completeAbs.toFixed(2)).replace("+", "")}</h3>
           </div>
           <div className="scraper-header-cat">
             <span>Today</span>
