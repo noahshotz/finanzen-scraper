@@ -7,6 +7,8 @@ finanzen-scraper is React-based web scraper for German financial platform Finanz
 ### Build status
 [![Netlify Status](https://api.netlify.com/api/v1/badges/dc18a034-295a-4e97-835d-654d416fb645/deploy-status)](https://app.netlify.com/sites/lucky-toffee-34af45/deploys)
 
+---
+
 ### Something to say about it? 🗣
 
 Open a pull request or message me at info@digitalbando.com
