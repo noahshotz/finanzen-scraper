@@ -87,7 +87,12 @@ function getScrape(
 
     if (type === "aktien") {
       // define data selectors at target page
-      const nameSel = "body > main > section:nth-child(2) > div > div > h2";
+      //const nameSel = "body > main > section:nth-child(2) > div > div > h2";
+      //const nameSelSec = "body > main > section:nth-child(3) > div > div > h2";
+      const nameSelArr = [
+        "body > main > section:nth-child(2) > div > div > h2",
+        "body > main > section:nth-child(3) > div > div > h2",
+      ]
       const priceSel = "#snapshot-value-fst-current-0 > span:nth-child(1)";
       const chgAbsSel = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
       const chgRelSel = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
@@ -95,7 +100,14 @@ function getScrape(
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
-        name = $(nameSel).text().replace("Aktie", "").trim();
+
+        nameSelArr.every(function (elem, index) {
+          if ($(elem).text() != "") {
+            name = $(elem).text().replace("Aktie", "").trim();
+          }
+        })
+
+        //name = $(nameSel).text().replace("Aktie", "").trim();
         price = $(priceSel).text().replace(",", ".");
         price = parseFloat(price).toFixed(2);
         chgabs = $(chgAbsSel)
@@ -105,8 +117,6 @@ function getScrape(
           .replace("±", "");
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
-
-        console.log(url);
 
         // initialize timestamp of last fetch
         const now = new Date();
@@ -138,39 +148,50 @@ function getScrape(
       });
     }
     if (type === "etf") {
-      let chgAbsSel;
       let chgRelSel;
       if (isSpecial) {
-        chgAbsSel =
-          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.red.arrow-red";
         chgRelSel =
-          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.red";
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap";
       } else {
-        chgAbsSel =
-          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10.green.arrow-green";
         chgRelSel =
-          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap.green";
+          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap";
       }
       const nameSel =
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > h1";
-      const priceSel =
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)";
+
+      const priceSelArr = [
+        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)"
+      ]
+
+      const chgAbsSelArr = [
+        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10",
+        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10"
+      ]
 
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
         name = $(nameSel).text().replace("ETF", "").trim();
-        price = $(priceSel).text().replace(",", ".").replace("±", "");
-        price = parseFloat(price).toFixed(2);
-        chgabs = $(chgAbsSel)
-          .text()
-          .replace(",", ".")
-          .replace("EUR", "")
-          .replace("±", "");
+
+        priceSelArr.every(function (elem, index) {
+          if ($(elem).text() != "") {
+            price = $(elem).text().replace(",", ".").replace("±", "");
+            price = parseFloat(price).toFixed(2);
+          }
+        });
+
+        chgAbsSelArr.every(function (chgAbsSelElem, index) {
+          if ($(chgAbsSelElem).text().length != 0) {
+            chgabs = $(chgAbsSelElem)
+              .text()
+              .replace(",", ".")
+              .replace("EUR", "")
+              .replace("±", "");
+          }
+        });
+
         chgrel = $(chgRelSel).text().replace("%", "").replace("±", "");
         type = type.toUpperCase();
-
-        
 
         // initialize timestamp of last fetch
         const now = new Date();
@@ -208,7 +229,7 @@ function getMarketState(marketState, setMarketState) {
 
   let today = new Date();
   let time = parseInt(today.getHours());
-  
+
   if (time >= 8 && time <= 22) {
     setMarketState(true);
   } else {
@@ -261,10 +282,10 @@ export default function Scraper() {
             getScrape(
               promiseState,
               setPromiseState
-          ), getMarketState(
-            marketState,
-            setMarketState
-          )]
+            ), getMarketState(
+              marketState,
+              setMarketState
+            )]
           }
         >
           Refresh <Refresh style={{ marginLeft: "10px" }} />
