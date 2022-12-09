@@ -312,9 +312,9 @@ export default function Scraper() {
               <code>Last updated: {item.update}</code>
             </div>
           ))}
-          <div className="error-log">
+          {(1==1) ? "" : <div className="error-log">
             <h3>Data unavailable 😢</h3>
-          </div>
+          </div>}
         </div>
       </div>
     </>

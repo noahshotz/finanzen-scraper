@@ -1,15 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
 
+// bogy bg color
+$bg: #f1f1f1;
+// component bg color
+$cpbg: #ffffff;
+// general text color
+$text: #1e1e1e;
+// accent color
+$accent: #3d00ff;
+// btn bg color & hover
+$btnbg: #e8e8e8;
+$btnbghov: #e0dede;
+
 :root {
-  font-family: "Roboto Mono", monospace, sans-serif;
+  font-family: "Roboto Mono", sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: $text;
+  background-color: $bg;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,11 +38,11 @@
 .card {
   max-width: 100vw;
   margin: 1em;
-  margin-top: 2em;
+  margin-top: 5em;
 }
 
 .read-the-docs {
-  color: #888;
+  color: $text;
 }
 
 h1 {
@@ -48,12 +60,12 @@ h2 {
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: $accent;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+  color: $accent;
 }
 
 code {
@@ -84,19 +96,15 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: $btnbg;
+  color: $accent;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: 0.2s;
   white-space: nowrap;
 }
 
 button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-color: $btnbghov;
 }
 
 .scraper-ct {
@@ -150,16 +158,21 @@ button:focus-visible {
   font-family: "Lato", sans-serif;
   font-weight: 700;
 }
+
 .scraper-header svg {
   margin-left: 2px;
   font-size: 32px;
 }
 
 .scrape-data-item {
-  background-color: #1a1a1a;
+  background-color: $cpbg;
+  color: $text;
   padding: 40px;
   margin-bottom: 20px;
   border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $btnbg;
 }
 
 .scrape-data-tabs {
@@ -174,9 +187,9 @@ button:focus-visible {
   margin-bottom: 20px;
 }
 
-.scrape-data-tabs-item span {
+.tab-item-header {
   font-weight: 400;
-  color: #7d7d7d;
+  color: $accent;
 }
 
 .scrape-data-tabs-item h3 {
@@ -193,7 +206,7 @@ button:focus-visible {
 
 .pill {
   color: white;
-  background: #3d00ff;
+  background: $accent;
   text-align: center;
   padding: 7px;
   padding-left: 15px;
@@ -216,7 +229,7 @@ button:focus-visible {
   padding: 30px;
   padding-left: 80px;
   padding-right: 80px;
-  background-color: #2b2b2b;
+  background-color: $cpbg;
   border-radius: 10px;
 }
 
@@ -224,17 +237,4 @@ footer {
   margin-bottom: 50px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
+@media (prefers-color-scheme: light) {}

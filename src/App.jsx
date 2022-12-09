@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import Scraper from './components/Scraper'
 import './App.css'
 
