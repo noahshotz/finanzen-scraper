@@ -12,7 +12,12 @@ function App() {
         <p className="read-the-docs">
           Made possible by <a href="digitalbando.com">digitalbando.com</a>
         </p>
-        <img src="https://api.netlify.com/api/v1/badges/dc18a034-295a-4e97-835d-654d416fb645/deploy-status"></img>
+        <img
+          src="https://api.netlify.com/api/v1/badges/dc18a034-295a-4e97-835d-654d416fb645/deploy-status"
+          width={135}
+          height={20}
+          alt="Netlify deploy status"
+        ></img>
       </footer>
     </div>
   )
