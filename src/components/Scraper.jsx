@@ -75,16 +75,20 @@ function getScrape(promiseState, setPromiseState) {
 
         // initialize timestamp of last fetch
         const now = new Date();
-        const fullDate =
-          ("0" + now.getDate()).slice(-2) +
-          "." +
-          (now.getMonth() + 1) +
-          "." +
-          now.getFullYear() +
-          " at " +
-          ("0" + now.getHours()).slice(-2) +
-          ":" +
-          now.getMinutes();
+        let fullDate = "";
+        if ((now.getHours() >= 22) || (now.getHours() >= 0 && now.getHours() <= 8)) {
+          fullDate =
+            ("0" + now.getDate()).slice(-2) + "." +
+            (now.getMonth() + 1) + "." + now.getFullYear() + " at " +
+            "22:00";
+        } else {
+          fullDate =
+            ("0" + now.getDate()).slice(-2) + "." +
+            (now.getMonth() + 1) + "." +
+            now.getFullYear() + " at " +
+            ("0" + now.getHours()).slice(-2) + ":" +
+            now.getMinutes();
+        }
 
         // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
@@ -150,16 +154,20 @@ function getScrape(promiseState, setPromiseState) {
 
         // initialize timestamp of last fetch
         const now = new Date();
-        const fullDate =
-          ("0" + now.getDate()).slice(-2) +
-          "." +
-          (now.getMonth() + 1) +
-          "." +
-          now.getFullYear() +
-          " at " +
-          ("0" + now.getHours()).slice(-2) +
-          ":" +
-          now.getMinutes();
+        let fullDate = "";
+        if ((now.getHours() >= 22) || (now.getHours() >= 0 && now.getHours() <= 8)) {
+          fullDate =
+            ("0" + now.getDate()).slice(-2) + "." +
+            (now.getMonth() + 1) + "." + now.getFullYear() + " at " +
+            "22:00";
+        } else {
+          fullDate =
+            ("0" + now.getDate()).slice(-2) + "." +
+            (now.getMonth() + 1) + "." +
+            now.getFullYear() + " at " +
+            ("0" + now.getHours()).slice(-2) + ":" +
+            now.getMinutes();
+        }
 
         // wait for all variables to have loaded
         return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
@@ -198,7 +206,6 @@ export default function Scraper() {
   const [marketState, setMarketState] = useState(true);
 
   useEffect(() => {
-    console.log("loading");
     // Update the document title using the browser API
     document.title = "Tradegate Scraper ✨ digital bando"
     getMarketState(
@@ -211,7 +218,6 @@ export default function Scraper() {
       marketState,
       setMarketState
     );
-    console.log("done loading");
   }, []);
 
   let completeAbs = 0;
