@@ -116,16 +116,6 @@ button:hover {
   flex-wrap: wrap;
 }
 
-.scrape-data-item h2 {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  margin-bottom: 15px;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-size: 30px;
-}
-
 .scraper-return {
   text-align: left;
   margin-bottom: 20px;
@@ -164,15 +154,46 @@ button:hover {
   font-size: 32px;
 }
 
+.scrape-data-results {
+  display: grid;
+  grid-template-columns: 450px 450px;
+  column-gap: 25px;
+  row-gap: 25px;
+  margin-bottom: 50px;
+}
+
 .scrape-data-item {
   background-color: $cpbg;
   color: $text;
   padding: 40px;
-  margin-bottom: 20px;
   border-radius: 10px;
   border-style: solid;
   border-width: 1px;
   border-color: $btnbg;
+}
+
+.tab-item-header {
+  font-weight: 400;
+  color: $accent;
+  font-size: 16px;
+}
+
+.scrape-data-item h2 {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 27px;
+}
+
+.scrape-data-tabs-item h3 {
+  margin: 0;
+  margin-top: 5px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .scrape-data-tabs {
@@ -185,19 +206,6 @@ button:hover {
 
 .asset-type {
   margin-bottom: 20px;
-}
-
-.tab-item-header {
-  font-weight: 400;
-  color: $accent;
-}
-
-.scrape-data-tabs-item h3 {
-  margin: 0;
-  margin-top: 5px;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-size: 22px;
 }
 
 .scrape-data-tabs span {

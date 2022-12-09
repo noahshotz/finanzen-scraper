@@ -12,6 +12,18 @@ function getScrape(promiseState, setPromiseState) {
   portfolio = [];
 
   // data array
+  // refactor to object & restructure url logic
+  // proxy + finanzen.net + type + name+"-aktie@stBoerse_" + marketplace
+
+  const marketplaces = [
+    {
+      marketplace: "Tradegate",
+      id: "TGT",
+      open: 8,
+      close: 22
+    },
+  ];
+
   const arr = [
     ["palantir-aktie@stBoerse_TGT", "aktien", 130, false],
     ["take_two-aktie@stBoerse_TGT", "aktien", 5, false],
@@ -19,7 +31,12 @@ function getScrape(promiseState, setPromiseState) {
     ["arcelormittal-aktie@stBoerse_TGT", "aktien", 70, false],
     ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 150, true],
     ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 200, true],
-    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 80, true],
+    [
+      "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
+      "etf",
+      80,
+      true,
+    ],
     ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 60, true],
     ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 25, true],
   ];
@@ -43,21 +60,23 @@ function getScrape(promiseState, setPromiseState) {
     let chgrel;
 
     if (type === "aktien") {
-
       // define data selectors at target page
       const name_selector = [
         "body > main > section:nth-child(2) > div > div > h2",
-        "body > main > section:nth-child(3) > div > div > h2"
+        "body > main > section:nth-child(3) > div > div > h2",
       ];
-      const price_selector = "#snapshot-value-fst-current-0 > span:nth-child(1)";
-      const chg_abs_selector = "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
-      const chg_rel_selector = "#snapshot-value-fst-relative-0 > span:nth-child(1)";
+      const price_selector =
+        "#snapshot-value-fst-current-0 > span:nth-child(1)";
+      const chg_abs_selector =
+        "#snapshot-value-fst-absolute-0 > span:nth-child(1)";
+      const chg_rel_selector =
+        "#snapshot-value-fst-relative-0 > span:nth-child(1)";
 
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
 
-        name_selector.forEach(elem => {
+        name_selector.forEach((elem) => {
           if ($(elem).text().length != 0) {
             name = $(elem).text().replace("Aktie", "");
           }
@@ -76,17 +95,28 @@ function getScrape(promiseState, setPromiseState) {
         // initialize timestamp of last fetch
         const now = new Date();
         let fullDate = "";
-        if ((now.getHours() >= 22) || (now.getHours() >= 0 && now.getHours() <= 8)) {
+        if (
+          now.getHours() >= 22 ||
+          (now.getHours() >= 0 && now.getHours() <= 8)
+        ) {
           fullDate =
-            ("0" + now.getDate()).slice(-2) + "." +
-            (now.getMonth() + 1) + "." + now.getFullYear() + " at " +
+            ("0" + now.getDate()).slice(-2) +
+            "." +
+            (now.getMonth() + 1) +
+            "." +
+            now.getFullYear() +
+            " at " +
             "22:00";
         } else {
           fullDate =
-            ("0" + now.getDate()).slice(-2) + "." +
-            (now.getMonth() + 1) + "." +
-            now.getFullYear() + " at " +
-            ("0" + now.getHours()).slice(-2) + ":" +
+            ("0" + now.getDate()).slice(-2) +
+            "." +
+            (now.getMonth() + 1) +
+            "." +
+            now.getFullYear() +
+            " at " +
+            ("0" + now.getHours()).slice(-2) +
+            ":" +
             now.getMinutes();
         }
 
@@ -119,13 +149,13 @@ function getScrape(promiseState, setPromiseState) {
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > h1";
 
       const priceSelArr = [
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)"
-      ]
+        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)",
+      ];
 
       const chgAbsSelArr = [
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10",
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10"
-      ]
+        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10",
+      ];
 
       // send request
       await axios.get(url).then(({ data }) => {
@@ -155,17 +185,28 @@ function getScrape(promiseState, setPromiseState) {
         // initialize timestamp of last fetch
         const now = new Date();
         let fullDate = "";
-        if ((now.getHours() >= 22) || (now.getHours() >= 0 && now.getHours() <= 8)) {
+        if (
+          now.getHours() >= 22 ||
+          (now.getHours() >= 0 && now.getHours() <= 8)
+        ) {
           fullDate =
-            ("0" + now.getDate()).slice(-2) + "." +
-            (now.getMonth() + 1) + "." + now.getFullYear() + " at " +
+            ("0" + now.getDate()).slice(-2) +
+            "." +
+            (now.getMonth() + 1) +
+            "." +
+            now.getFullYear() +
+            " at " +
             "22:00";
         } else {
           fullDate =
-            ("0" + now.getDate()).slice(-2) + "." +
-            (now.getMonth() + 1) + "." +
-            now.getFullYear() + " at " +
-            ("0" + now.getHours()).slice(-2) + ":" +
+            ("0" + now.getDate()).slice(-2) +
+            "." +
+            (now.getMonth() + 1) +
+            "." +
+            now.getFullYear() +
+            " at " +
+            ("0" + now.getHours()).slice(-2) +
+            ":" +
             now.getMinutes();
         }
 
@@ -189,7 +230,6 @@ function getScrape(promiseState, setPromiseState) {
 }
 
 function getMarketState(marketState, setMarketState) {
-
   let today = new Date();
   let time = parseInt(today.getHours());
 
@@ -207,17 +247,9 @@ export default function Scraper() {
 
   useEffect(() => {
     // Update the document title using the browser API
-    document.title = "Tradegate Scraper ✨ digital bando"
-    getMarketState(
-      marketState,
-      setMarketState
-    )
-    getScrape(
-      promiseState,
-      setPromiseState,
-      marketState,
-      setMarketState
-    );
+    document.title = "Tradegate Scraper ✨ digital bando";
+    getMarketState(marketState, setMarketState);
+    getScrape(promiseState, setPromiseState, marketState, setMarketState);
   }, []);
 
   let completeAbs = 0;
@@ -225,7 +257,7 @@ export default function Scraper() {
   const formatter = new Intl.NumberFormat("de-DE", {
     style: "currency",
     currency: "EUR",
-    signDisplay: 'always'
+    signDisplay: "always",
   });
 
   portfolio.forEach((element) => {
@@ -238,14 +270,9 @@ export default function Scraper() {
         <h1>My data 👋</h1>
         <button
           onClick={() => [
-            getScrape(
-              promiseState,
-              setPromiseState
-            ), getMarketState(
-              marketState,
-              setMarketState
-            )]
-          }
+            getScrape(promiseState, setPromiseState),
+            getMarketState(marketState, setMarketState),
+          ]}
         >
           Refresh <Refresh style={{ marginLeft: "10px" }} />
         </button>
@@ -271,10 +298,10 @@ export default function Scraper() {
             </h3>
           </div>
         </div>
-        <div>
+        <div className="scrape-data-results">
           {portfolio.map((item, index) => (
             <div key={index} className="scrape-data-item">
-              <h2>💸 {item.name}</h2>
+              <h2>{item.name}</h2>
               {/*<code>{item.url}</code>*/}
               <div className="scrape-data-tabs asset-type">
                 <span className="pill">{item.type}</span>
@@ -299,7 +326,9 @@ export default function Scraper() {
                 <div className="scrape-data-tabs-item">
                   <span className="tab-item-header">Total</span>
                   <h3>
-                    {formatter.format((item.quantity * item.price).toFixed(2)).replace("+", "")}
+                    {formatter
+                      .format((item.quantity * item.price).toFixed(2))
+                      .replace("+", "")}
                   </h3>
                 </div>
                 <div className="scrape-data-tabs-item">
@@ -312,9 +341,13 @@ export default function Scraper() {
               <code>Last updated: {item.update}</code>
             </div>
           ))}
-          {(1==1) ? "" : <div className="error-log">
-            <h3>Data unavailable 😢</h3>
-          </div>}
+          {1 == 1 ? (
+            ""
+          ) : (
+            <div className="error-log">
+              <h3>Data unavailable 😢</h3>
+            </div>
+          )}
         </div>
       </div>
     </>
