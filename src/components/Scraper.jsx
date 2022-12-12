@@ -227,6 +227,7 @@ function getScrape(promiseState, setPromiseState) {
       });
     }
   });
+  console.log(portfolio);
 }
 
 function getMarketState(marketState, setMarketState) {
@@ -248,8 +249,15 @@ export default function Scraper() {
   useEffect(() => {
     // Update the document title using the browser API
     document.title = "Tradegate Scraper ✨ digital bando";
+
     getMarketState(marketState, setMarketState);
     getScrape(promiseState, setPromiseState, marketState, setMarketState);
+
+    const interval = setInterval(() => {
+      getMarketState(marketState, setMarketState);
+      getScrape(promiseState, setPromiseState, marketState, setMarketState);
+    }, 300000);
+    return () => clearInterval(interval);
   }, []);
 
   let completeAbs = 0;
@@ -279,16 +287,18 @@ export default function Scraper() {
       </div>
       <div className="scraper-return">
         <div className="scraper-header">
-          <div className="scraper-header-cat">
-            <span>Total</span>
-            <h3>{formatter.format(completeAbs.toFixed(2)).replace("+", "")}</h3>
-          </div>
-          <div className="scraper-header-cat">
-            <span>Today</span>
-            <h3>
-              {formatter.format(completeTodayAbs.toFixed(2))}
-              {completeTodayAbs.toFixed(2) <= 0 ? <ArrowDown /> : <ArrowUp />}
-            </h3>
+          <div className="scraper-header-cat stats-header">
+            <div>
+              <span>Total</span>
+              <h3>{formatter.format(completeAbs.toFixed(2)).replace("+", "")}</h3>
+            </div>
+            <div>
+              <span>Today</span>
+              <h3>
+                {formatter.format(completeTodayAbs.toFixed(2))}
+                {/*completeTodayAbs.toFixed(2) <= 0 ? <ArrowDown /> : <ArrowUp />*/}
+              </h3>
+            </div>
           </div>
           <div className="scraper-header-cat">
             <h3>

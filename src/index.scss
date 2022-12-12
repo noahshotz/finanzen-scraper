@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600&display=swap');
 
 // bogy bg color
-$bg: #f1f1f1;
+$bg: #f5f5f5;
 // component bg color
 $cpbg: #ffffff;
 // general text color
@@ -12,6 +13,21 @@ $accent: #3d00ff;
 // btn bg color & hover
 $btnbg: #ede7ff;
 $btnbghov: #e6ddff;
+
+@media (prefers-color-scheme: dark) {
+  // bogy bg color
+  $bg: #1e1e1e;
+  // component bg color
+  $cpbg: #ffffff;
+  // general text color
+  $text: #1e1e1e;
+  // accent color
+  $accent: #3d00ff;
+  // btn bg color & hover
+  $btnbg: #ede7ff;
+  $btnbghov: #e6ddff;
+}
+
 
 :root {
   font-family: "Roboto Mono", sans-serif;
@@ -46,6 +62,8 @@ $btnbghov: #e6ddff;
 }
 
 h1 {
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
   font-size: 3.2em;
   text-align: left;
   margin: 0;
@@ -53,6 +71,8 @@ h1 {
 }
 
 h2 {
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
   margin-top: 0;
   line-height: 1.5;
 }
@@ -69,7 +89,9 @@ a:hover {
 }
 
 code {
-  font-weight: 300;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  color: #989898;
 }
 
 body {
@@ -138,10 +160,15 @@ button:hover {
   font-size: 15px;
 }
 
-.scraper-header h3 {
+.stats-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  gap: 0px 40px;
+}
+
+.scraper-header h3 {
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
   margin: 0;
   margin-top: 2px;
   font-size: 26px;
@@ -151,7 +178,7 @@ button:hover {
 
 .scraper-header svg {
   margin-left: 2px;
-  font-size: 32px;
+  font-size: inherit;
 }
 
 .scrape-data-results {
@@ -182,9 +209,9 @@ button:hover {
   display: inline-block;
   padding: 0;
   margin: 0;
-  margin-bottom: 15px;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
+  margin-bottom: 10px;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
   font-size: 27px;
 }
 
@@ -200,16 +227,12 @@ button:hover {
   display: flex;
   align-items: flex-end;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   gap: 10px 40px;
 }
 
 .asset-type {
-  margin-bottom: 20px;
-}
-
-.scrape-data-tabs span {
-  margin-right: 30px;
+  margin-bottom: 10px;
 }
 
 .pill {
@@ -244,5 +267,3 @@ button:hover {
 footer {
   margin-bottom: 50px;
 }
-
-@media (prefers-color-scheme: light) {}
