@@ -32,7 +32,7 @@ function getScrape(promiseState, setPromiseState) {
     ["arcelormittal-aktie@stBoerse_TGT", "aktien", 41, false],
     ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112, true],
     ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151, true],
-    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", , true],
+    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30, true],
     ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30, true],
     ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6, true],
   ];
@@ -314,7 +314,7 @@ export default function Scraper() {
               <div className="scrape-data-tabs">
                 <div className="scrape-data-tabs-item">
                   <span className="tab-item-header">Last</span>
-                  <h3>{formatter.format(item.price)}</h3>
+                  <h3>{formatter.format(item.price).replace("+", "")}</h3>
                 </div>
                 <div className="scrape-data-tabs-item">
                   <h3>{formatter.format(item.chgabs)}</h3>
