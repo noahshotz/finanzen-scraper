@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
 import { FiRefreshCcw as Refresh } from "react-icons/fi";
+// arrows for stats header need rework to stay in box flow
 import { FiArrowUpRight as ArrowUp } from "react-icons/fi";
 import { FiArrowDownRight as ArrowDown } from "react-icons/fi";
 
@@ -25,20 +26,15 @@ function getScrape(promiseState, setPromiseState) {
   ];
 
   const arr = [
-    ["palantir-aktie@stBoerse_TGT", "aktien", 130, false],
+    ["palantir-aktie@stBoerse_TGT", "aktien", 67, false],
     ["take_two-aktie@stBoerse_TGT", "aktien", 5, false],
     ["lvmh-aktie@stBoerse_TGT", "aktien", 1, false],
-    ["arcelormittal-aktie@stBoerse_TGT", "aktien", 70, false],
-    ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 150, true],
-    ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 200, true],
-    [
-      "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt",
-      "etf",
-      80,
-      true,
-    ],
-    ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 60, true],
-    ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 25, true],
+    ["arcelormittal-aktie@stBoerse_TGT", "aktien", 41, false],
+    ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112, true],
+    ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151, true],
+    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", , true],
+    ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30, true],
+    ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6, true],
   ];
 
   const proxy = "https://web-production-0fb1.up.railway.app/";
@@ -227,7 +223,6 @@ function getScrape(promiseState, setPromiseState) {
       });
     }
   });
-  console.log(portfolio);
 }
 
 function getMarketState(marketState, setMarketState) {
