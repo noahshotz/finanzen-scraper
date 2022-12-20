@@ -26,15 +26,15 @@ function getScrape(promiseState, setPromiseState) {
   ];
 
   const arr = [
-    ["palantir-aktie@stBoerse_TGT", "aktien", 67, false],
-    ["take_two-aktie@stBoerse_TGT", "aktien", 5, false],
-    ["lvmh-aktie@stBoerse_TGT", "aktien", 1, false],
-    ["arcelormittal-aktie@stBoerse_TGT", "aktien", 41, false],
-    ["ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112, true],
-    ["hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151, true],
-    ["lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30, true],
-    ["ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30, true],
-    ["ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6, true],
+    ["Palantir Technologies Inc.", "palantir-aktie@stBoerse_TGT", "aktien", 67],
+    ["Take Two Interactive", "take_two-aktie@stBoerse_TGT", "aktien", 5],
+    ["LVMH Moët Henn. L. Vuitton SA", "lvmh-aktie@stBoerse_TGT", "aktien", 1],
+    ["ArcelorMittal S.A.", "arcelormittal-aktie@stBoerse_TGT", "aktien", 41],
+    ["iShsII-Gl.Clean Energy U.ETF", "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112],
+    ["HSBC MSCI WORLD UCITS ETF", "hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151],
+    ["Lyxor IF-Robot.& AI UCITS ETF", "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30],
+    ["iShares VI-Automation&Robotics", "ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30],
+    ["iShsIII-Cor.MSCI Wld UCITS ETF", "ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6],
   ];
 
   const proxy = "https://web-production-0fb1.up.railway.app/";
@@ -43,24 +43,19 @@ function getScrape(promiseState, setPromiseState) {
 
   arr.forEach(async function (item, index) {
     // store values from array as variables
-    const urlParam = item[0];
-    let type = item[1];
-    const quantity = item[2];
-    const isSpecial = item[3];
+    const name = item[0];
+    const urlParam = item[1];
+    let type = item[2];
+    const quantity = item[3];
     const url = baseURL + type + "/" + urlParam;
 
     // initialize export variables
-    let name;
     let price;
     let chgabs;
     let chgrel;
 
     if (type === "aktien") {
       // define data selectors at target page
-      const name_selector = [
-        "body > main > section:nth-child(2) > div > div > h2",
-        "body > main > section:nth-child(3) > div > div > h2",
-      ];
       const price_selector =
         "#snapshot-value-fst-current-0 > span:nth-child(1)";
       const chg_abs_selector =
@@ -71,13 +66,6 @@ function getScrape(promiseState, setPromiseState) {
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
-
-        name_selector.forEach((elem) => {
-          if ($(elem).text().length != 0) {
-            name = $(elem).text().replace("Aktie", "");
-          }
-        });
-
         price = $(price_selector).text().replace(",", ".");
         price = parseFloat(price).toFixed(2);
         chgabs = $(chg_abs_selector)
@@ -117,7 +105,7 @@ function getScrape(promiseState, setPromiseState) {
         }
 
         // wait for all variables to have loaded
-        return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
+        return Promise.all([price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
             price: price,
@@ -133,21 +121,11 @@ function getScrape(promiseState, setPromiseState) {
       });
     }
     if (type === "etf") {
-      let chgRelSel;
-      if (isSpecial) {
-        chgRelSel =
+      const chgRelSel =
           "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap";
-      } else {
-        chgRelSel =
-          "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.mtext-right.dtext-center.text-nowrap";
-      }
-      const nameSel =
-        "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > h1";
-
       const priceSelArr = [
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(1)",
       ];
-
       const chgAbsSelArr = [
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10",
         "body > div.wrapper > div.container.mobile > div.shadow > div.flex-content > div:nth-child(1) > div > div.flex.mobile-flex-dir-col.mtop-10.expand-content-box.snapshot-headline > div.dflex-70.desk-pright-30 > div.table-responsive.quotebox > table:nth-child(1) > tbody > tr:nth-child(1) > td.text-nowrap.text-center.desk-before-absolut-top-19.before-absolut-top-10",
@@ -156,8 +134,6 @@ function getScrape(promiseState, setPromiseState) {
       // send request
       await axios.get(url).then(({ data }) => {
         const $ = cheerio.load(data);
-        name = $(nameSel).text().replace("ETF", "").trim();
-
         priceSelArr.every(function (elem, index) {
           if ($(elem).text() != "") {
             price = $(elem).text().replace(",", ".").replace("±", "");
@@ -207,7 +183,7 @@ function getScrape(promiseState, setPromiseState) {
         }
 
         // wait for all variables to have loaded
-        return Promise.all([name, price, chgabs, chgrel, fullDate]).then(
+        return Promise.all([price, chgabs, chgrel, fullDate]).then(
           portfolio.push({
             name: name,
             price: price,
