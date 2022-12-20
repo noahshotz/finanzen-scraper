@@ -30,11 +30,11 @@ function getScrape(promiseState, setPromiseState) {
     ["Take Two Interactive", "take_two-aktie@stBoerse_TGT", "aktien", 5],
     ["LVMH Moët Henn. L. Vuitton SA", "lvmh-aktie@stBoerse_TGT", "aktien", 1],
     ["ArcelorMittal S.A.", "arcelormittal-aktie@stBoerse_TGT", "aktien", 41],
-    ["iShsII-Gl.Clean Energy U.ETF", "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112],
-    ["HSBC MSCI WORLD UCITS ETF", "hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151],
-    ["Lyxor IF-Robot.& AI UCITS ETF", "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30],
-    ["iShares VI-Automation&Robotics", "ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30],
-    ["iShsIII-Cor.MSCI Wld UCITS ETF", "ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6],
+    ["iShares Global Clean Energy", "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112],
+    ["HSBC MSCI WORLD", "hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 151],
+    ["Lyxor MSCI Robotics & AI", "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30],
+    ["iShares Automation & Robotics", "ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30],
+    ["iShares Core MSCI World", "ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6],
   ];
 
   const proxy = "https://web-production-0fb1.up.railway.app/";
