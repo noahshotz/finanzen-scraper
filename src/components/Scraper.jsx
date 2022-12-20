@@ -25,6 +25,12 @@ function getScrape(promiseState, setPromiseState) {
     },
   ];
 
+  // set your portfolio data here:
+  // "field 1", "field 2", "field 3", "field 4"
+  // field 1: name - can be anything you want
+  // structure of url to fetch from, eg: https://www.finanzen.net/aktien/palantir-aktie@stBoerse_TGT
+  // -> "https://www.finanzen.net/" + field 3 + "/" + field 2
+  // -> will be refactored to a better structure sometime soon
   const arr = [
     ["Palantir Technologies Inc.", "palantir-aktie@stBoerse_TGT", "aktien", 67],
     ["Take Two Interactive", "take_two-aktie@stBoerse_TGT", "aktien", 5],
@@ -37,11 +43,12 @@ function getScrape(promiseState, setPromiseState) {
     ["iShares Core MSCI World", "ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6],
   ];
 
+  // the url to your reverse proxy
   const proxy = "https://web-production-0fb1.up.railway.app/";
   const target = "www.finanzen.net/";
   const baseURL = proxy + target;
 
-  arr.forEach(async function (item, index) {
+  arr.forEach(async function (item) {
     // store values from array as variables
     const name = item[0];
     const urlParam = item[1];
@@ -224,6 +231,7 @@ export default function Scraper() {
     getMarketState(marketState, setMarketState);
     getScrape(promiseState, setPromiseState, marketState, setMarketState);
 
+    // update data every 5 minutes
     const interval = setInterval(() => {
       getMarketState(marketState, setMarketState);
       getScrape(promiseState, setPromiseState, marketState, setMarketState);
@@ -231,18 +239,21 @@ export default function Scraper() {
     return () => clearInterval(interval);
   }, []);
 
-  let completeAbs = 0;
-  let completeTodayAbs = 0;
+  // euro formatting
   const formatter = new Intl.NumberFormat("de-DE", {
     style: "currency",
     currency: "EUR",
     signDisplay: "always",
   });
 
+  // get complete value & absolute change today
+  let completeAbs = 0;
+  let completeTodayAbs = 0;
   portfolio.forEach((element) => {
     completeAbs = completeAbs + element.price * element.quantity;
     completeTodayAbs = completeTodayAbs + element.chgabs * element.quantity;
   });
+
   return (
     <>
       <div className="scraper-ct">
