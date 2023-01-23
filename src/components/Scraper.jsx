@@ -37,7 +37,7 @@ function getScrape(promiseState, setPromiseState) {
     ["LVMH Moët Henn. L. Vuitton SA", "lvmh-aktie@stBoerse_TGT", "aktien", 1],
     ["ArcelorMittal S.A.", "arcelormittal-aktie@stBoerse_TGT", "aktien", 41],
     ["iShares Global Clean Energy", "ishares-global-clean-energy-etf-ie00b1xnhc34/tgt", "etf", 112],
-    ["HSBC MSCI WORLD", "hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 155],
+    ["HSBC MSCI WORLD", "hsbc-msci-world-etf-ie00b4x9l533/tgt", "etf", 159],
     ["Lyxor MSCI Robotics & AI", "lyxor-msci-robotics-ai-esg-filtered-etf-lu1838002480/tgt", "etf", 30],
     ["iShares Automation & Robotics", "ishares-automation-robotics-etf-ie00byzk4552/tgt", "etf", 30],
     ["iShares Core MSCI World", "ishares-core-msci-world-etf-ie00b4l5y983/tgt", "etf", 6],
